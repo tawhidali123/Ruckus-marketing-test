@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button'
 
 
 export default function MyModal(props) {
-    
     return (
         <div>
             <Modal show={props.show} onHide={props.handleClose}>
@@ -14,7 +13,7 @@ export default function MyModal(props) {
                 <Modal.Body>
                     <p>Number: {props.modalInfo.phone_numbers}</p>
                     <p>Time: {props.modalInfo.timings}</p>
-                    <p>Menu Link: {props.modalInfo.menu_url}</p>
+                    <p>Menu Link: <a href={props.modalInfo.menu_url}>Go to site</a></p>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={props.handleClose}>
