@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantCard from './components/RestaurantCard'
+import Container from 'react-bootstrap/Container'
 
 export const Context = React.createContext()
 
@@ -24,18 +25,21 @@ function App() {
 
   return (
     <div className="App">
-      <h1
-        style={{
-          textAlign: 'center',
-          margin: '15px 5px',
-          padding: '10px',
-          border: 'orange 5px solid',
-          borderRadius: '10px'
-        }}
-      >Ruckus restaurant</h1>
-
+      
       <Context.Provider value={restaurants}>
-        <RestaurantCard />
+        <Container>
+          <h1
+          style={{
+            textAlign: 'center',
+            margin: '15px 5px',
+            padding: '10px',
+            border: 'orange 5px solid',
+            borderRadius: '10px'
+          }}
+          >Ruckus restaurant</h1>
+
+          <RestaurantCard />
+        </Container>
       </Context.Provider>
     </div>
   );

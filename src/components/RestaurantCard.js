@@ -34,6 +34,7 @@ export default function RestaurantCard(props) {
                 <Card 
                     key={res.restaurant.R.res_id}
                     id = {index}
+                    className='p-3'
                 >
                     <Card.Img variant="top" src={`${res.restaurant.featured_image}`} onClick={(e) => handleShow(res.restaurant)} />
                     <Card.Body>
