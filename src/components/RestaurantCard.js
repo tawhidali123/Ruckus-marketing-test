@@ -3,31 +3,39 @@ import {Context} from '../App'
 
 import CardColumns from 'react-bootstrap/CardColumns'
 import Card from 'react-bootstrap/Card'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import MyModal from './MyModal';
 import Spinner from 'react-bootstrap/Spinner'
+
 
 export default function RestaurantCard(props) {
 
-    const restaurants = useContext(Context)
-    console.log('restaurants from Res Card', restaurants)
-
-    let allRestaurants
+    const restaurants = useContext(Context) || [];
 
     const [show, setShow] = useState(false);
+    const [modalData, setModalData] = useState({});
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true)
-    
 
-    restaurants !== null ? allRestaurants = restaurants.map((res, index) => {
+    const handleClose = () => {
+        setShow(false);
+        setModalData({})
+    }
+
+    const handleShow = (data) => {
+        setShow(true)
+        setModalData(data)
+        console.log("data => ", data)
+    };
+
+    console.log('restaurants from Res Card', restaurants)
+
+    let allRestaurants = restaurants.map((res, index) => {
         return(
             <div>
                 <Card 
                     key={res.restaurant.R.res_id}
                     id = {index}
                 >
-                    <Card.Img variant="top" src={`${res.restaurant.featured_image}`} onClick={handleShow} />
+                    <Card.Img variant="top" src={`${res.restaurant.featured_image}`} onClick={(e) => handleShow(res.restaurant)} />
                     <Card.Body>
                     <Card.Title>{res.restaurant.name}</Card.Title>
                     <Card.Text>
@@ -38,31 +46,35 @@ export default function RestaurantCard(props) {
                     </Card.Body>
                 </Card>
 
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>{res.restaurant.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>Number: {res.restaurant.phone_numbers}</p>
-                        <p>Time: {res.restaurant.timings}</p>
-                        <p>Menu Link: {res.restaurant.menu_url}</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
             </div>
         )
-    }) : console.log('Loading...')
+    }) 
+
+
+   
 
 
     return (
         <div>
-            <CardColumns>
-                {allRestaurants}
-            </CardColumns>
+
+            {
+                restaurants.length ? (
+                    <div>
+                        <CardColumns>
+                            {allRestaurants}
+                        </CardColumns> 
+
+                        <MyModal modalInfo={modalData} show={show} handleShow={handleShow} handleClose={handleClose}  />
+                    </div>
+                 ) : (
+                    <Spinner animation="border" role="status"  style={{
+                        margin: '20% 45%'
+                    }}>
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                 )
+            }
+                        
         </div>
     )
 }
